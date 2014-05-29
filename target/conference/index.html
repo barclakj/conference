@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+</head>
+<body>
+This is a test
+<script type="text/javascript">
+var os = false;
+var socket = new WebSocket("ws://ideapad:8080/conference/conf");
+socket.onopen = function(){
+	os = true;
+    alert("Socket has been opened!");
+}
+socket.onmessage = function(msg){
+    var html = msg.data; //  + "<br/>" + document.getElementById('data').innerHTML;
+    document.getElementById('data').innerHTML = html;
+  //  alert(msg.data); //Awesome!
+}
+socket.onclose = function(msg){
+    alert("Closed!");
+}
+socket.onerror = function(msg){
+    alert("Error: " );
+    alert(msg.data);
+}
+
+function sendmsg(m) {
+	if (os) {
+		socket.send(m);
+		// alert('sent: ' + m);
+	}
+}
+
+var perfload = 1000;
+
+function loadtest() {
+    while(perfload>0) {
+        sendmsg(document.getElementById('imsg').value + " - " + perfload);
+        perfload = perfload-1;
+        setTimeout(loadtest(), 10);
+    }
+}
+</script>
+<input type="text" size="30" id="imsg"/>
+<input type="button" value="send" onclick="javascript:sendmsg(document.getElementById('imsg').value);"/>
+<input type="button" value="Load Test" onclick="javascript:setTimeout(loadtest(),1000);"/>
+
+<div id="data">
+
+</div>
+</body>
+</html>
