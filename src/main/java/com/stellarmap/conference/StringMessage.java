@@ -1,5 +1,7 @@
 package com.stellarmap.conference;
 
+import org.json.JSONObject;
+
 /**
  * Represents a directly connected client (i.e. from a servlet/web-socket).
  * Created by barclakj on 28/05/2014.
@@ -27,7 +29,13 @@ public class StringMessage implements Message {
 
     @Override
     public String toJSONString() {
-        return message;
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("msg", message);
+        jsonObject.put("creator", originHashCode);
+        jsonObject.put("ts", timestamp);
+
+        return jsonObject.toString();
     }
 
     @Override

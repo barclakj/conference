@@ -1,11 +1,9 @@
 package com.stellarmap.conference;
 
-import com.stellarmap.utils.HashUtils;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,9 +17,13 @@ import java.util.logging.Logger;
  * Clients maintain their own queue of messages.
  * Created by barclakj on 28/05/2014.
  */
-public class Conference {
+public class Conference implements Runnable {
     private static final Logger log = Logger.getLogger(Conference.class.getCanonicalName());
 
+    /**
+     * Timestamp of when the conference was created.
+     */
+    private final long ts = System.currentTimeMillis();
     /**
      * Set of all clients.
      */
@@ -46,6 +48,13 @@ public class Conference {
      * Max participants. If zero then no limit.
      */
     private int maxParticipants = 0;
+
+    private AtomicBoolean stateRunning = new AtomicBoolean(true);
+    private ExecutorService conferenceRunner = Executors.newSingleThreadExecutor();
+
+    public Conference() {
+        super();
+    }
 
     /**
      * Sets the max number of participants for the conference.
@@ -99,11 +108,15 @@ public class Conference {
      * Close the conference.
      */
     public void close() {
+        log.info("Closing conference: " + this.getConferenceCode());
+        stateRunning.set(false);
         try {
-            executor.awaitTermination(10, TimeUnit.SECONDS);
+            conferenceRunner.awaitTermination(500, TimeUnit.MILLISECONDS);
+            executor.awaitTermination(500, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             log.warning("Exception awaiting termination: " + e.getMessage());
         }
+        conferenceRunner.shutdown();
         executor.shutdown();
         allListeners.clear();
     }
@@ -118,10 +131,34 @@ public class Conference {
 
     /**
      * Removes the specified listener from the conference.
+     * If no-one is left then shutdown the conference.
      * @param listener
      */
     public void remove(ConferenceClientInterface listener) {
+        if (log.isLoggable(Level.FINEST)) log.finest("Removing listener..");
         allListeners.remove(listener);
+        if (allListeners.size()==0) {
+            if (log.isLoggable(Level.FINEST)) log.finest("It's zero size - killing it.");
+            this.close();
+            if (log.isLoggable(Level.FINEST)) log.finest("Dropping conference.");
+            ConferenceManager.dropConference(this);
+        }
+    }
+
+    /**
+     * Removes the specified listener from the conference by name.
+     * If no-one is left then shutdown the conference.
+     * @param clientListener
+     */
+    public void remove(String clientListener) {
+        if (log.isLoggable(Level.FINEST)) log.finest("Removing listener: " + clientListener);
+        for(ConferenceClientInterface cl : allListeners) {
+            if (log.isLoggable(Level.FINEST)) log.finest("Comparing " + clientListener + " with " + cl.getListenerCode());
+            if (cl.getListenerCode().equals(clientListener)) {
+                if (log.isLoggable(Level.FINEST)) log.finest("Listener found! ");
+                remove(cl);
+            }
+        }
     }
 
     /**
@@ -129,34 +166,84 @@ public class Conference {
      * @param msg
      */
     public void put(Message msg) {
-        if (log.isLoggable(Level.INFO)) log.info("Attempting to deliver message: " + msg.hashCode());
+        if (log.isLoggable(Level.FINEST)) log.finest("Attempting to deliver message: " + msg.hashCode());
         if (msg!=null) {
             // place message on the queue for each listener
             // (note that this does not actually deliver the message).
-            log.info("Queuing...");
+            log.finest("Queuing...");
             for(ConferenceClientInterface listener : allListeners) {
                 if (listener.hashCode()!=msg.getOriginHashCode()) {
-                    if (log.isLoggable(Level.INFO)) log.info("Queuing message for: " + listener.hashCode());
+                    if (log.isLoggable(Level.FINEST)) log.finest("Queuing message for: " + listener.hashCode());
                     listener.tickle(msg);
                 } else {
-                    if (log.isLoggable(Level.INFO)) log.info("Skipping message for: " + listener.getListenerCode() + " as origin.");
+                    if (log.isLoggable(Level.FINEST)) log.finest("Skipping message for: " + listener.getListenerCode() + " as origin.");
                 }
             }
+            // now deliver messages...
+            if (!conferenceRunner.isTerminated()) {
+                conferenceRunner.execute(this);
+            }
+        }
+    }
 
-            // now try and deliver them using the executor.
-            // note that multiple threads may be spawned.
-            log.info("Delivering...");
-            if (executor!=null) {
+    /**
+     * Executes each interface runner for the conference.
+     * Note that this then checks that the number of messages queued is zero
+     * and may run again (and again) if it does not.
+     */
+    public void run() {
+        if (stateRunning.get()) {
+            boolean keepRunning = true;
+            while (keepRunning) {
+                // now try and deliver them using the executor.
+                // note that multiple threads may be spawned.
+                log.finest("Delivering...");
+                if (executor!=null) {
+                    for(ConferenceClientInterface listener : allListeners) {
+                        if (log.isLoggable(Level.FINEST)) log.finest("Delivering messages to: " + listener.getListenerCode());
+                        ClientInterfaceRunner runner = listener.getClientInterfaceRunner();
+                        if (runner!=null) {
+                            executor.submit(listener.getClientInterfaceRunner());
+                        } else {
+                            if (log.isLoggable(Level.WARNING)) log.warning("No runner available for listener: " + listener.hashCode());
+                        }
+                    }
+                }
+                keepRunning = false; // assume we can stop.. (should be able to)
+
+                // but check again anyway.. if we've any messages left over...
                 for(ConferenceClientInterface listener : allListeners) {
-                    if (log.isLoggable(Level.INFO)) log.info("Delivering messages to: " + listener.getListenerCode());
-                    ClientInterfaceRunner runner = listener.getClientInterfaceRunner();
-                    if (runner!=null) {
-                        executor.submit(listener.getClientInterfaceRunner());
-                    } else {
-                        if (log.isLoggable(Level.WARNING)) log.warning("No runner available for listener: " + listener.hashCode());
+                    if (!listener.getMessageQueue().isEmpty()) {
+                        // run again.
+                        keepRunning = true;
+                        break;
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Returns the collection of listeners.
+     * @return
+     */
+    public Collection<ConferenceClientInterface> listListeners() {
+        return allListeners;
+    }
+
+    /**
+     * Returns the number of members in the conference.
+     * @return
+     */
+    public int getConferenceSize() {
+        return allListeners.size();
+    }
+
+    /**
+     * Returns the timestamp of when the conference was created.
+     * @return
+     */
+    public long getTs() {
+        return ts;
     }
 }

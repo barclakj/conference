@@ -11,29 +11,37 @@ var os = false;
 var socket = new WebSocket("ws://ideapad:8080/conference/conf");
 socket.onopen = function(){
 	os = true;
-    alert("Socket has been opened!");
+    console.log("Socket has been opened!");
 }
 socket.onmessage = function(msg){
-    var html = msg.data; //  + "<br/>" + document.getElementById('data').innerHTML;
-    document.getElementById('data').innerHTML = html;
-  //  alert(msg.data); //Awesome!
+    console.log(msg.data);
+    var obj = JSON.parse(msg.data);
+    if (obj.listOfConferences!=null && obj.listOfConferences!=undefined) {
+        listConferencesResponse(obj.listOfConferences);
+    } else if (obj.listOfListeners!=null && obj.listOfListeners!=undefined) {
+        listListenersResponse(obj.listOfListeners, obj.conference);
+    } else if (obj.msg!=null && obj.msg!=undefined) {
+        showMessage(obj);
+    } else if (obj.cmdOutcome!=null && obj.cmdOutcome!=undefined) {
+        listConferencesRequest();
+    }
 }
 socket.onclose = function(msg){
-    alert("Closed!");
+    console.log("Closed! " + msg);
 }
 socket.onerror = function(msg){
-    alert("Error: " );
-    alert(msg.data);
+    console.log("Error: " );
+    console.log(msg);
 }
 
 function sendmsg(m) {
 	if (os) {
 		socket.send(m);
-		// alert('sent: ' + m);
+		console.debug('Sent: ' + m);
 	}
 }
 
-var perfload = 1000;
+var perfload = 10000;
 
 function loadtest() {
     while(perfload>0) {
@@ -42,13 +50,172 @@ function loadtest() {
         setTimeout(loadtest(), 10);
     }
 }
+
+function showMessage(msg) {
+    document.getElementById('data').innerHTML = msg.msg + '<br/>' + document.getElementById('data').innerHTML;
+}
+
+function listConferencesRequest() {
+    var req = new Object();
+    req.confCmd = 2;
+
+    var str = JSON.stringify(req);
+    console.log(str);
+    return str;
+}
+
+function listConferencesResponse(listOfConferences) {
+    console.log("confs: " + listOfConferences.length);
+    var htmlDat = [];
+    htmlDat.push('<table>');
+    for(var i=0;i<listOfConferences.length;i++) {
+        var str = '<tr><td>' + listOfConferences[i].confCode + '</td>';
+        str += '<td>' + listOfConferences[i].size + '</td>';
+        str += '<td>[<a href="javascript:execKill(\'' + listOfConferences[i].confCode + '\');">Kill</a>]</td>';
+        str += '<td>[<a href="javascript:execListenerList(\'' + listOfConferences[i].confCode + '\');">List</a>]</td>';
+        str += '<td>[<a href="javascript:execJoin(\'' + listOfConferences[i].confCode + '\');">Join</a>]</td></tr>';
+        htmlDat.push(str);
+    }
+    htmlDat.push('</table>');
+    var str = htmlDat.join('');
+    document.getElementById('confList').innerHTML = str;
+}
+
+function listListenerRequest(confCode) {
+    var req = new Object();
+    req.confCmd = 1;
+    req.confCode = confCode;
+    var str = JSON.stringify(req);
+    console.log(str);
+    return str;
+}
+
+function listListenersResponse(listOfListeners, conference) {
+    console.log("confs: " + listOfListeners.length);
+    var htmlDat = [];
+    htmlDat.push('<table>');
+    for(var i=0;i<listOfListeners.length;i++) {
+        var str = '<tr><td>' + listOfListeners[i].listenerCode + '</td>';
+        str += '<td>[<a href="javascript:execKillListener(\'' + conference.confCode + '\', \'' + listOfListeners[i].listenerCode + '\');">Kill</a>]</td></tr>';
+        htmlDat.push(str);
+    }
+    htmlDat.push('</table>');
+    var str = htmlDat.join('');
+    document.getElementById('confList').innerHTML = str;
+}
+
+function createRequest() {
+    var req = new Object();
+    req.confCmd = 0;
+
+    var str = JSON.stringify(req);
+    console.log(str);
+    return str;
+}
+
+function createResponse(data) {
+    execConferenceList();
+}
+
+function joinRequest(confCode) {
+    var req = new Object();
+    req.confCmd = 5;
+    req.confCode = confCode;
+
+    var str = JSON.stringify(req);
+    console.log(str);
+    return str;
+}
+
+function joinResponse(data) {
+    var obj = JSON.parse(data);
+}
+
+function killRequest(confCode) {
+    var req = new Object();
+    req.confCmd = 4;
+    req.confCode = confCode;
+
+    var str = JSON.stringify(req);
+    console.log(str);
+    return str;
+}
+
+function killResponse(data) {
+    var obj = JSON.parse(data);
+}
+
+function killListenerRequest(confCode, listenerCode) {
+    var req = new Object();
+    req.confCmd = 3;
+    req.confCode = confCode;
+    req.listenerCode = listenerCode;
+
+    var str = JSON.stringify(req);
+    console.log(str);
+    return str;
+}
+
+function killListenerResponse(data) {
+    var obj = JSON.parse(data);
+}
+
+
 </script>
 <input type="text" size="30" id="imsg"/>
-<input type="button" value="send" onclick="javascript:sendmsg(document.getElementById('imsg').value);"/>
-<input type="button" value="Load Test" onclick="javascript:setTimeout(loadtest(),1000);"/>
+<input type="button" value="send" onclick="javascript:execSendMsg();"/>
+<input type="button" value="Load Test" onclick="javascript:setTimeout(function() { perfload=10000; loadtest(); },1000);"/>
 
+<div>
+    <input type="button" value="List Conferences" onclick="javascript:execConferenceList();"/>
+    <input type="button" value="List Listeners" onclick="javascript:execListenerList();"/>
+    <input type="button" value="Create Conference" onclick="javascript:execCreate();"/>
+
+</div>
+<div id="confList">
+
+</div>
 <div id="data">
 
 </div>
+<script type="text/javascript">
+    function execSendMsg() {
+        var str = document.getElementById('imsg').value;
+        var o = new Object();
+        o.msg = str;
+        var s = JSON.stringify(o);
+        sendmsg(s);
+    }
+
+    function execConferenceList() {
+        var str = listConferencesRequest();
+        sendmsg(str);
+    }
+
+    function execListenerList(confCode) {
+        var str = listListenerRequest(confCode);
+        sendmsg(str);
+    }
+
+    function execCreate() {
+        var str = createRequest();
+        sendmsg(str);
+    }
+
+    function execJoin(confCode) {
+        var str = joinRequest(confCode);
+        sendmsg(str);
+    }
+
+    function execKill(confCode) {
+        var str = killRequest(confCode);
+        sendmsg(str);
+    }
+
+    function execKillListener(confCode, listenerCode) {
+        var str = killListenerRequest(confCode, listenerCode);
+        sendmsg(str);
+    }
+</script>
 </body>
 </html>

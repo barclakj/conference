@@ -3,6 +3,7 @@ package com.stellarmap.conference;
 import com.stellarmap.utils.HashUtils;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -46,6 +47,51 @@ public class ConferenceManager {
         conf.setMaxParticipants(size);
         allConferenceMap.put(conf.getConferenceCode(), conf);
         return conf;
+    }
+
+    /**
+     * Closes and removes the specified conference.
+     * @param confCode
+     */
+    public static void closeConference(String confCode) {
+        if(confCode!=null) {
+            Conference conf = locateConference(confCode);
+            if (conf!=null) {
+                allConferenceMap.remove(confCode);
+                conf.close();
+                conf = null;
+            }
+        }
+    }
+
+    /**
+     * Removes conference listener by code from all conferences.
+     * @param listenerCode
+     */
+
+    /**
+     * Moves listener from one conference to another (if it exists).
+     * @param clientInterface
+     * @param confCode
+     * @throws ConferenceException
+     */
+    public static void moveListener(ConferenceClientInterface clientInterface, String confCode) throws ConferenceException {
+        // remove the listener from any conferences
+        for(Conference conf : allConferenceMap.values()) {
+            conf.remove(clientInterface.getListenerCode());
+        }
+        // nullify conference
+        clientInterface.setConference(null);
+        // drain any messages out.
+        clientInterface.drainQueue();
+
+        //now find the new conference and join it if found
+        if (confCode!=null) {
+            Conference conf = locateConference(confCode);
+            if (conf!=null) {
+                conf.join(clientInterface);
+            } // if here then listener will die once socket is closed.
+        } // if here then listener will die once socket is closed.
     }
 
     /**
@@ -115,5 +161,22 @@ public class ConferenceManager {
             if (log.isLoggable(Level.WARNING)) log.warning("Request for conference: " + confCode + " failed - not found!");
             return null;
         }
+    }
+
+    /**
+     * Returns the collection of conferences.
+     * @return
+     */
+    public static Collection<Conference> listConferences() {
+        return allConferenceMap.values();
+    }
+
+    /**
+     * Drops a conference out of the map. Called only from conference
+     * directly.
+     * @param conf
+     */
+    protected static void dropConference(Conference conf) {
+        allConferenceMap.remove(conf.getConferenceCode());
     }
 }

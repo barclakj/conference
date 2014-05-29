@@ -73,4 +73,9 @@ public class DirectConferenceClientInterface implements ConferenceClientInterfac
     public String getListenerCode() {
         return listenerCode;
     }
+
+    @Override
+    public void drainQueue() {
+        messageQueue.clear();
+    }
 }

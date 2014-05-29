@@ -55,4 +55,9 @@ public interface ConferenceClientInterface {
      * @return
      */
     public String getListenerCode();
+
+    /**
+     * Removes (does not process) all messages in the queue.
+     */
+    public void drainQueue();
 }
