@@ -1,6 +1,8 @@
 package com.stellarmap.conference.cmds;
 
 import com.stellarmap.conference.ConferenceClientInterface;
+import com.stellarmap.conference.JsonMessage;
+import com.stellarmap.conference.Message;
 import com.stellarmap.conference.StringMessage;
 import org.json.JSONObject;
 
@@ -13,6 +15,14 @@ public class ConferenceController {
     private static final Logger log = Logger.getLogger(ConferenceController.class.getCanonicalName());
     public static final String CONF_COMMAND = "confCmd";
     public static final String CONF_OUTCOME = "cmdOutcome";
+    public static final String CONF_ACTION = "confAction";
+    public static final String CONF_ACTION_STATE_CHANGE = "statechange";
+
+    public static final String CONF_STATUS = "status";
+
+    public static final String CONF_STATUS_ENTRY = "entry";
+    public static final String CONF_STATUS_ACTIVE = "active";
+    public static final String CONF_STATUS_EXIT = "exit";
 
     public static final String CONFERENCE_CODE = "confCode";
     public static final String CONF_LISTENER_CODE = "listenerCode";
@@ -105,11 +115,43 @@ public class ConferenceController {
      * @param clientInterface
      */
     public static void placeMessage(JSONObject jsonObject, ConferenceClientInterface clientInterface) {
-        log.info("proc a");
-        String msg = jsonObject.getString(CONF_MSG);
-        log.info("proc b");
-        StringMessage msgObject = new StringMessage(msg);
-        log.info("proc c");
-        clientInterface.put(msgObject);
+        Message m = null;
+        if (jsonObject!=null && jsonObject.has(CONF_MSG)) {
+            String msg = jsonObject.getString(CONF_MSG);
+            m = new StringMessage(msg);
+        } else if (jsonObject!=null) {
+            m = new JsonMessage(jsonObject);
+        }
+        if (m!=null) clientInterface.put(m);
+        else {
+            log.warning("Unable to send message: " + jsonObject);
+        }
+    }
+
+
+    /**
+     * Creates a new object to notify that a user has left the conference.
+     * @param clientInterface
+     * @return
+     */
+    public static JSONObject createNotifyExitMessage(ConferenceClientInterface clientInterface) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(ConferenceController.CONF_ACTION, ConferenceController.CONF_ACTION_STATE_CHANGE);
+        jsonObject.put(ConferenceController.CONF_LISTENER_CODE, clientInterface.getListenerCode());
+        jsonObject.put(ConferenceController.CONF_STATUS, ConferenceController.CONF_STATUS_EXIT);
+        return jsonObject;
+    }
+
+    /**
+     * Creates a new object to notify that a user has entered the conference.
+     * @param clientInterface
+     * @return
+     */
+    public static JSONObject createNotifyEntryMessage(ConferenceClientInterface clientInterface) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(ConferenceController.CONF_ACTION, ConferenceController.CONF_ACTION_STATE_CHANGE);
+        jsonObject.put(ConferenceController.CONF_LISTENER_CODE, clientInterface.getListenerCode());
+        jsonObject.put(ConferenceController.CONF_STATUS, ConferenceController.CONF_STATUS_ENTRY);
+        return jsonObject;
     }
 }

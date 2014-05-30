@@ -17,6 +17,8 @@ public class JoinConferenceCmd implements  ConferenceCommand {
        try {
             if (confCode!=null) {
                 ConferenceManager.moveListener(clientInterface, confCode);
+                JSONObject entryMessage = ConferenceController.createNotifyEntryMessage(clientInterface);
+                ConferenceController.placeMessage(entryMessage, clientInterface);
                 responseObject.put(ConferenceController.CONF_OUTCOME, ConferenceController.CONF_OUTCOME_SUCCESS);
                 responseObject.put(ConferenceController.CONF_OUTCOME_MSG, confCode);
                 confCode = null;

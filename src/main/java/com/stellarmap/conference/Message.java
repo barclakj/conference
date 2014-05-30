@@ -25,6 +25,6 @@ public interface Message {
      * Returns the hash code of the originating listener.
      * @return
      */
-    public int getOriginHashCode();
+    public String getOriginListenerCode();
 
 }

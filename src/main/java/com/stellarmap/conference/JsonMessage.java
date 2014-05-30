@@ -6,12 +6,12 @@ import org.json.JSONObject;
  * Represents a directly connected client (i.e. from a servlet/web-socket).
  * Created by barclakj on 28/05/2014.
  */
-public class StringMessage implements Message {
+public class JsonMessage implements Message {
     private long timestamp = System.currentTimeMillis();
-    private String message = null;
+    private JSONObject message = null;
     private String originHashCode = null;
 
-    public StringMessage(String msg) {
+    public JsonMessage(JSONObject msg) {
         super();
         message = msg;
     }
@@ -29,9 +29,8 @@ public class StringMessage implements Message {
 
     @Override
     public String toJSONString() {
-        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject = message;
 
-        jsonObject.put("msg", message);
         jsonObject.put("creator", originHashCode);
         jsonObject.put("ts", timestamp);
 

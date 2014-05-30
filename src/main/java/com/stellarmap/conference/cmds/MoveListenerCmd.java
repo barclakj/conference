@@ -26,7 +26,13 @@ public class MoveListenerCmd implements ConferenceCommand {
             responseObject.put(ConferenceController.CONF_OUTCOME_MSG, "No listener specified.");
         }
 
+        JSONObject entryMessage = ConferenceController.createNotifyEntryMessage(clientInterface);
+        ConferenceController.placeMessage(entryMessage, clientInterface);
+
         return responseObject; */
-        return null;
+        JSONObject responseObject = new JSONObject();
+        responseObject.put(ConferenceController.CONF_OUTCOME, ConferenceController.CONF_OUTCOME_FAIL);
+        responseObject.put(ConferenceController.CONF_OUTCOME_MSG, "Not implemented");
+        return responseObject;
     }
 }

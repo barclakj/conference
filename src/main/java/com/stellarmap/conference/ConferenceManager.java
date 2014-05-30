@@ -76,14 +76,7 @@ public class ConferenceManager {
      * @throws ConferenceException
      */
     public static void moveListener(ConferenceClientInterface clientInterface, String confCode) throws ConferenceException {
-        // remove the listener from any conferences
-        for(Conference conf : allConferenceMap.values()) {
-            conf.remove(clientInterface.getListenerCode());
-        }
-        // nullify conference
-        clientInterface.setConference(null);
-        // drain any messages out.
-        clientInterface.drainQueue();
+        closeListener(clientInterface);
 
         //now find the new conference and join it if found
         if (confCode!=null) {
@@ -178,5 +171,20 @@ public class ConferenceManager {
      */
     protected static void dropConference(Conference conf) {
         allConferenceMap.remove(conf.getConferenceCode());
+    }
+
+    /**
+     * Removes the listener from all conferences and drains the queue.
+     * @param clientInterface
+     */
+    public static void closeListener(ConferenceClientInterface clientInterface) {
+        // remove the listener from any conferences
+        for(Conference conf : allConferenceMap.values()) {
+            conf.remove(clientInterface.getListenerCode());
+        }
+        // nullify conference
+        clientInterface.setConference(null);
+        // drain any messages out.
+        clientInterface.drainQueue();
     }
 }

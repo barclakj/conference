@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,28 +58,15 @@ public class ConferenceWebSocket {
     }
 
     @OnMessage
-    public String handleMessage(String msg, Session session) {
+    public String onMessage(String msg, Session session) {
         boolean abort = false;
-
-        // constructing courier if needed.
-        if (courier==null) {
-            log.info("Creating courier and client interface: ");
-            courier = new MessageCourier();
-            courier.endpoint = session.getAsyncRemote();
-            courier.endpoint.setSendTimeout(TIMEOUT);
-            clientInterface = new DirectConferenceClientInterface(session.getId(), session.getProtocolVersion(), session.getNegotiatedSubprotocol());
-            ((DirectConferenceClientInterface)clientInterface).setCourier(courier);
-        }
 
         // verifying session
         if (session.isOpen()) {
             if (log.isLoggable(Level.FINEST)) log.finest("Session is open.");
         } else {
-            log.warning("Session is not open! Abort.");
-            if (courier!=null) courier.endpoint = null;
-            if (clientInterface!=null) clientInterface.getConference().remove(clientInterface);
-            courier = null;
-            clientInterface = null;
+            log.warning("Session is not open! Aborting.");
+            cleanup();
             abort = true;
         }
 
@@ -94,17 +82,60 @@ public class ConferenceWebSocket {
                     String responseMsg = response.toString();
                     return responseMsg;
                 } else {
-                    log.info("cont a");
                     ConferenceController.placeMessage(jsonObject, clientInterface);
-                    log.info("cont b");
                     return null;
                 }
             } else {
+                log.warning("Unable to process request - no message.");
                 return "{\"error\": \"Unable to process request.\"}";
             }
         } else {
+            log.warning("Unable to process request - no session.");
             return "{\"error\": \"Unable to process request.\"}";
         }
     }
+
+    @OnOpen
+    public void onOpen(Session session) throws IOException {
+        log.fine("Session opened.");
+        log.info("Creating courier and client interface: ");
+        courier = new MessageCourier();
+        courier.endpoint = session.getAsyncRemote();
+        courier.endpoint.setSendTimeout(TIMEOUT);
+        clientInterface = new DirectConferenceClientInterface(session.getId(), session.getProtocolVersion(), session.getNegotiatedSubprotocol());
+        ((DirectConferenceClientInterface)clientInterface).setCourier(courier);
+    }
+
+    @OnClose
+    public void onClose(Session session, CloseReason reason) throws IOException  {
+        if (log.isLoggable(Level.FINE)) log.fine("Socket closed reason: [Code: " + reason.getCloseCode() + "] " + reason.getReasonPhrase());
+        cleanup();
+    }
+
+    @OnError
+    public void onError(Throwable t) {
+        log.log(Level.SEVERE, "Exception in WebSocket: " + t.getMessage(), t);
+        cleanup();
+    }
+
+    /**
+     * Cleans up instance objects and removes listener from all conferences.
+     * A message will be sent to all other participants of the meeting that
+     * someone has joined.
+     */
+    private void cleanup() {
+        log.fine("Cleaning up web-socket");
+        if (clientInterface!=null) {
+            if (clientInterface.getConference()!=null) {
+                JSONObject jsonObject = ConferenceController.createNotifyExitMessage(clientInterface);
+                ConferenceController.placeMessage(jsonObject, clientInterface);
+            }
+            ConferenceManager.closeListener(clientInterface);
+            clientInterface =  null;
+        }
+        if (courier!=null) courier.endpoint = null;
+    }
+
+
 
 }

@@ -172,8 +172,8 @@ public class Conference implements Runnable {
             // (note that this does not actually deliver the message).
             log.finest("Queuing...");
             for(ConferenceClientInterface listener : allListeners) {
-                if (listener.hashCode()!=msg.getOriginHashCode()) {
-                    if (log.isLoggable(Level.FINEST)) log.finest("Queuing message for: " + listener.hashCode());
+                if (listener.getListenerCode()!=msg.getOriginListenerCode()) {
+                    if (log.isLoggable(Level.FINEST)) log.finest("Queuing message for: " + listener.getListenerCode());
                     listener.tickle(msg);
                 } else {
                     if (log.isLoggable(Level.FINEST)) log.finest("Skipping message for: " + listener.getListenerCode() + " as origin.");
