@@ -104,6 +104,19 @@ public class ConferenceWebSocket {
         courier.endpoint.setSendTimeout(TIMEOUT);
         clientInterface = new DirectConferenceClientInterface(session.getId(), session.getProtocolVersion(), session.getNegotiatedSubprotocol());
         ((DirectConferenceClientInterface)clientInterface).setCourier(courier);
+
+        // this is a hack to make a pub work easily...
+        Conference pubConference = ConferenceManager.locateConference("the_red_lion");
+        if (pubConference!=null) {
+            try {
+                pubConference.join(clientInterface);
+            } catch (ConferenceException e) {
+                log.warning("Unable to join the pub!?");
+                e.printStackTrace();
+            }
+        } else {
+            log.warning("Pub does not exist!");
+        }
     }
 
     @OnClose

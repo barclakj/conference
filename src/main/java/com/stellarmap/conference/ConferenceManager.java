@@ -30,6 +30,14 @@ public class ConferenceManager {
      */
     private static final Map<String, Conference> allConferenceMap = new ConcurrentHashMap<String, Conference>();
 
+    static {
+        // by default there should always be one conference called "theredlion"
+        Conference conf = new Conference();
+        conf.setMaxParticipants(0);
+        conf.setExpireWhenEmpty(false);
+        allConferenceMap.put("the_red_lion", conf); // note that the name will not match the conference code
+    }
+
     /**
      * Utility method to create conference with unlimited clients.
      * @return
@@ -37,6 +45,7 @@ public class ConferenceManager {
     public static Conference newConference() {
         return newConference(0);
     }
+
     /**
      * Construct a new conference and add it to the conference map for future use.
      * Returns the new conference.

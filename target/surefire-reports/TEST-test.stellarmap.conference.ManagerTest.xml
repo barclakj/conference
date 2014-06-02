@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="1.107" errors="0" skipped="0" tests="2" name="test.stellarmap.conference.ManagerTest">
+<testsuite failures="0" time="1.105" errors="0" skipped="0" tests="2" name="test.stellarmap.conference.ManagerTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home/jre/lib"/>
@@ -63,6 +63,6 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase time="0.057" classname="test.stellarmap.conference.ManagerTest" name="testCode"/>
-  <testcase time="1.05" classname="test.stellarmap.conference.ManagerTest" name="testConference"/>
+  <testcase time="0.067" classname="test.stellarmap.conference.ManagerTest" name="testCode"/>
+  <testcase time="1.038" classname="test.stellarmap.conference.ManagerTest" name="testConference"/>
 </testsuite>

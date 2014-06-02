@@ -52,8 +52,21 @@ public class Conference implements Runnable {
     private AtomicBoolean stateRunning = new AtomicBoolean(true);
     private ExecutorService conferenceRunner = Executors.newSingleThreadExecutor();
 
+    /**
+     * Indicates if the conference should expire once all participants have left.
+     */
+    private boolean expireWhenEmpty = true;
+
     public Conference() {
         super();
+    }
+
+    /**
+     * Set expiry on conf.
+     * @param _val
+     */
+    public void setExpireWhenEmpty(boolean _val) {
+        expireWhenEmpty = _val;
     }
 
     /**
@@ -137,7 +150,7 @@ public class Conference implements Runnable {
     public void remove(ConferenceClientInterface listener) {
         if (log.isLoggable(Level.FINEST)) log.finest("Removing listener..");
         allListeners.remove(listener);
-        if (allListeners.size()==0) {
+        if (allListeners.size()==0 && expireWhenEmpty) {
             if (log.isLoggable(Level.FINEST)) log.finest("It's zero size - killing it.");
             this.close();
             if (log.isLoggable(Level.FINEST)) log.finest("Dropping conference.");
