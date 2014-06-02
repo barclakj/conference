@@ -57,8 +57,35 @@ public class Conference implements Runnable {
      */
     private boolean expireWhenEmpty = true;
 
+    /**
+     * A logical (optional) name for the conference. If no name is defined
+     * then the conference code will be used.
+     */
+    private String name = null;
+
     public Conference() {
         super();
+    }
+
+    /**
+     * Set the logical name of the conference. Note that if none (or null/zero length string (trimmed))
+     * is specified then the conference code will be used as the name.
+     * @param _name
+     */
+    public void setName(String _name) {
+        name = _name;
+    }
+
+    /**
+     * Returns the logical name of the conference.
+     * @return
+     */
+    public String getName() {
+        if (name==null || name.trim().equalsIgnoreCase("")) {
+            return this.getConferenceCode();
+        } else {
+            return name;
+        }
     }
 
     /**

@@ -35,7 +35,8 @@ public class ConferenceManager {
         Conference conf = new Conference();
         conf.setMaxParticipants(0);
         conf.setExpireWhenEmpty(false);
-        allConferenceMap.put("the_red_lion", conf); // note that the name will not match the conference code
+        conf.setName("The Red Lion");
+        allConferenceMap.put("the_red_lion", conf); // temp hack: note that the name will not match the conference code
     }
 
     /**

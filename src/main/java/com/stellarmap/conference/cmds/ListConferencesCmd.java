@@ -18,6 +18,7 @@ public class ListConferencesCmd implements ConferenceCommand {
         for(Conference conf : ConferenceManager.listConferences()) {
             JSONObject confRecord = new JSONObject();
             confRecord.put(ConferenceController.CONFERENCE_CODE, conf.getConferenceCode());
+            confRecord.put(ConferenceController.NAME, conf.getName());
             confRecord.put(ConferenceController.CONFERENCE_SIZE, conf.getConferenceSize());
             confRecord.put(ConferenceController.MAX_PARTICIPANTS, conf.getMaxParticipants());
             confRecord.put(ConferenceController.TIMESTAMP, conf.getTs());

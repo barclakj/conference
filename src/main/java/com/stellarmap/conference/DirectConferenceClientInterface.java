@@ -14,6 +14,8 @@ public class DirectConferenceClientInterface implements ConferenceClientInterfac
 
     private ClientCourier courier = null;
 
+    private String name = null;
+
     public DirectConferenceClientInterface() {
         super();
         listenerCode = ConferenceManager.newListenerCode(null, null, null);
@@ -77,5 +79,19 @@ public class DirectConferenceClientInterface implements ConferenceClientInterfac
     @Override
     public void drainQueue() {
         messageQueue.clear();
+    }
+
+    @Override
+    public void setName(String _name) {
+        name = _name;
+    }
+
+    @Override
+    public String getName() {
+        if (name==null || name.trim().equalsIgnoreCase("")) {
+            return this.getListenerCode();
+        } else {
+            return name;
+        }
     }
 }

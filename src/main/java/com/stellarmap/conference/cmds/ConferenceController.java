@@ -41,12 +41,15 @@ public class ConferenceController {
 
     public static final String CONF_MSG = "msg";
 
+    public static final String NAME = "name";
+
     public static final int CREATE_CONFERENCE = 0;
     public static final int LIST_LISTENERS = 1;
     public static final int LIST_CONFERENCES = 2;
     public static final int MOVE_LISTENER = 3;
     public static final int CLOSE_CONFERENCE = 4;
     public static final int JOIN_CONFERENCE = 5;
+    public static final int SET_CI_NAME = 6;
 
     // converts string to cmds object
     public static JSONObject toJsonObject(String jsonString) {
@@ -94,7 +97,11 @@ public class ConferenceController {
                 case JOIN_CONFERENCE:
                     command = new JoinConferenceCmd();
                     break;
+                case SET_CI_NAME:
+                    command = new SetConferenceClientInterfaceNameCmd();
+                    break;
                 default:
+                    log.warning("Unknown command type (" + cmd + ") specified.");
                     break;
             }
             // execute the object if it is not null.

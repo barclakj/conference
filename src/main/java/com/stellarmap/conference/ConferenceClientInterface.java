@@ -60,4 +60,17 @@ public interface ConferenceClientInterface {
      * Removes (does not process) all messages in the queue.
      */
     public void drainQueue();
+
+    /**
+     * Set the logical name of the client interface. Note that if none (or null/zero length string (trimmed))
+     * is specified then the listener code will be used as the name.
+     * @param _name
+     */
+    public void setName(String _name);
+
+    /**
+     * Returns the logical name of the client interface.
+     * @return
+     */
+    public String getName();
 }

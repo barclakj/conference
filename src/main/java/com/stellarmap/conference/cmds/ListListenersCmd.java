@@ -15,11 +15,19 @@ public class ListListenersCmd implements ConferenceCommand {
     public JSONObject cmd(JSONObject jsonObject, ConferenceClientInterface clientInterface) {
         JSONObject responseObject = new JSONObject();
 
-        String confCode = jsonObject.getString(ConferenceController.CONFERENCE_CODE);
-        Conference conf = ConferenceManager.locateConference(confCode);
+        Conference conf = null;
+        String confCode=null;
+        if (jsonObject.has(ConferenceController.CONFERENCE_CODE)) {
+            confCode = jsonObject.getString(ConferenceController.CONFERENCE_CODE);
+            conf = ConferenceManager.locateConference(confCode);
+        } else {
+            conf = clientInterface.getConference();
+        }
+
         if (conf!=null) {
             JSONObject confRecord = new JSONObject();
             confRecord.put(ConferenceController.CONFERENCE_CODE, conf.getConferenceCode());
+            confRecord.put(ConferenceController.NAME, conf.getName());
             confRecord.put(ConferenceController.CONFERENCE_SIZE, conf.getConferenceSize());
             confRecord.put(ConferenceController.MAX_PARTICIPANTS, conf.getMaxParticipants());
             confRecord.put(ConferenceController.TIMESTAMP, conf.getTs());
@@ -29,6 +37,7 @@ public class ListListenersCmd implements ConferenceCommand {
             for(ConferenceClientInterface ci : conf.listListeners()) {
                 JSONObject listRecord = new JSONObject();
                 listRecord.put(ConferenceController.CONF_LISTENER_CODE, ci.getListenerCode());
+                listRecord.put(ConferenceController.NAME, ci.getName());
                 confArray.put(listRecord);
             }
             responseObject.put(ConferenceController.CONF_LIST_OF_LISTENERS, confArray);

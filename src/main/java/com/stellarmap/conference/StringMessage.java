@@ -10,6 +10,7 @@ public class StringMessage implements Message {
     private long timestamp = System.currentTimeMillis();
     private String message = null;
     private String originHashCode = null;
+    private String name = null;
 
     public StringMessage(String msg) {
         super();
@@ -19,6 +20,7 @@ public class StringMessage implements Message {
     @Override
     public void initialise(ConferenceClientInterface listener) {
         this.originHashCode = listener.getListenerCode();
+        this.name = listener.getName();
         timestamp = System.currentTimeMillis();
     }
 
@@ -34,6 +36,7 @@ public class StringMessage implements Message {
         jsonObject.put("msg", message);
         jsonObject.put("creator", originHashCode);
         jsonObject.put("ts", timestamp);
+        jsonObject.put("name", name);
 
         return jsonObject.toString();
     }

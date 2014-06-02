@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="744040ae-9794-4a8f-96e6-b82a3d87e45c" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/SetConferenceClientInterfaceNameCmd.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/Conference.java" afterPath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/Conference.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/ConferenceClientInterface.java" afterPath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/ConferenceClientInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ConferenceController.java" afterPath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ConferenceController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/ConferenceManager.java" afterPath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/ConferenceManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/servlet/ConferenceWebSocket.java" afterPath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/servlet/ConferenceWebSocket.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/DirectConferenceClientInterface.java" afterPath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/DirectConferenceClientInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ListConferencesCmd.java" afterPath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ListConferencesCmd.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ListListenersCmd.java" afterPath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ListListenersCmd.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/StringMessage.java" afterPath="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/StringMessage.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Conference.iws" />
@@ -82,9 +88,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/servlet/ConferenceWebSocket.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="107" column="54" selection-start="4282" selection-end="4282" vertical-scroll-proportion="0.0" vertical-offset="1340" max-vertical-offset="2400">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -92,8 +96,22 @@
       <file leaf-file-name="DirectConferenceClientInterface.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/DirectConferenceClientInterface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="5" selection-start="1258" selection-end="1258" vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="1305">
-              <folding />
+            <state line="86" column="5" selection-start="2005" selection-end="2005" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1320">
+              <folding>
+                <element signature="e#1976#1977#0" expanded="true" />
+                <element signature="e#2004#2005#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ListConferencesCmd.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ListConferencesCmd.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="0" selection-start="1254" selection-end="1254" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -101,55 +119,46 @@
       <file leaf-file-name="Conference.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/Conference.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="152" column="53" selection-start="4759" selection-end="4759" vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="3795">
+            <state line="69" column="7" selection-start="2138" selection-end="2690" vertical-scroll-proportion="0.0" vertical-offset="768" max-vertical-offset="4170">
               <folding>
-                <element signature="e#2075#2076#0" expanded="true" />
-                <element signature="e#2113#2114#0" expanded="true" />
+                <element signature="e#2383#2384#0" expanded="true" />
+                <element signature="e#2411#2412#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConferenceManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/ConferenceManager.java">
+      <file leaf-file-name="ConferenceClientInterface.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/ConferenceClientInterface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="0" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="2970">
+            <state line="67" column="7" selection-start="1684" selection-end="1684" vertical-scroll-proportion="0.0" vertical-offset="530" max-vertical-offset="1230">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CreateConferenceCmd.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/CreateConferenceCmd.java">
+      <file leaf-file-name="ListListenersCmd.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ListListenersCmd.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="0" selection-start="673" selection-end="673" vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="585">
+            <state line="13" column="13" selection-start="375" selection-end="375" vertical-scroll-proportion="0.0" vertical-offset="63" max-vertical-offset="795">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MoveListenerCmd.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/MoveListenerCmd.java">
+      <file leaf-file-name="CloseConferenceCmd.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/CloseConferenceCmd.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="44" selection-start="1054" selection-end="1054" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="660">
+            <state line="16" column="68" selection-start="547" selection-end="547" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="465">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StringMessage.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/StringMessage.java">
+      <file leaf-file-name="SetConferenceClientInterfaceNameCmd.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/SetConferenceClientInterfaceNameCmd.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="39" selection-start="1059" selection-end="1059" vertical-scroll-proportion="0.0" vertical-offset="615" max-vertical-offset="765">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Message.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/Message.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="39" selection-start="627" selection-end="648" vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="540">
+            <state line="23" column="9" selection-start="1007" selection-end="1007" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="465">
               <folding />
             </state>
           </provider>
@@ -158,7 +167,7 @@
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="13" selection-start="166" selection-end="166" vertical-scroll-proportion="0.21190894" vertical-offset="14" max-vertical-offset="3405">
+            <state line="14" column="1" selection-start="319" selection-end="319" vertical-scroll-proportion="0.36649215" vertical-offset="0" max-vertical-offset="3405">
               <folding />
             </state>
           </provider>
@@ -199,22 +208,24 @@
         <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/json/ListConferencesCmd.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/json/ListListenersCmd.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/json/ConferenceController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ListListenersCmd.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/KillListenerCmd.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/ConferenceClientInterface.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/DirectConferenceClientInterface.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/index.html" />
         <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/CreateConferenceCmd.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/JoinConferenceCmd.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ConferenceController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/Message.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/StringMessage.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/JsonMessage.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/MoveListenerCmd.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/Conference.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/ConferenceManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/servlet/ConferenceWebSocket.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/Conference.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/ConferenceClientInterface.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/DirectConferenceClientInterface.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ListConferencesCmd.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/StringMessage.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/ConferenceManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/SetConferenceClientInterfaceNameCmd.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ConferenceController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ListListenersCmd.java" />
       </list>
     </option>
   </component>
@@ -493,6 +504,40 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Conference" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Conference" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stellarmap" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="conference" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cmds" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -513,9 +558,11 @@
     <property name="recentsLimit" value="5" />
     <property name="dynamic.classpath" value="false" />
     <property name="FullScreen" value="false" />
+    <property name="SearchEverywhereHistory" value="" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.stellarmap.conference.cmds" />
       <recent name="com.stellarmap.conference" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -579,6 +626,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -604,19 +664,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -719,8 +766,8 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32991204" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32991204" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -744,6 +791,34 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/MoveListenerCmd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="44" selection-start="1054" selection-end="1054" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="660">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/StringMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="39" selection-start="1059" selection-end="1059" vertical-scroll-proportion="0.0" vertical-offset="615" max-vertical-offset="765">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="39" selection-start="627" selection-end="648" vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="540">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="13" selection-start="166" selection-end="166" vertical-scroll-proportion="0.0" vertical-offset="14" max-vertical-offset="3405">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ConferenceController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="0" selection-start="1282" selection-end="1282" vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="1815">
@@ -775,7 +850,10 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/DirectConferenceClientInterface.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="46" column="5" selection-start="1258" selection-end="1258" vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="1305">
-          <folding />
+          <folding>
+            <element signature="e#1976#1977#0" expanded="true" />
+            <element signature="e#2004#2005#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -783,8 +861,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="119" column="28" selection-start="3897" selection-end="3897" vertical-scroll-proportion="0.0" vertical-offset="1785" max-vertical-offset="3825">
           <folding>
-            <element signature="e#2075#2076#0" expanded="true" />
-            <element signature="e#2113#2114#0" expanded="true" />
+            <element signature="e#2383#2384#0" expanded="true" />
+            <element signature="e#2411#2412#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -848,7 +926,10 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/DirectConferenceClientInterface.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="46" column="5" selection-start="1258" selection-end="1258" vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="1305">
-          <folding />
+          <folding>
+            <element signature="e#1976#1977#0" expanded="true" />
+            <element signature="e#2004#2005#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -856,8 +937,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="119" column="28" selection-start="3897" selection-end="3897" vertical-scroll-proportion="0.0" vertical-offset="1785" max-vertical-offset="3825">
           <folding>
-            <element signature="e#2075#2076#0" expanded="true" />
-            <element signature="e#2113#2114#0" expanded="true" />
+            <element signature="e#2383#2384#0" expanded="true" />
+            <element signature="e#2411#2412#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -963,40 +1044,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/CloseConferenceCmd.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="68" selection-start="547" selection-end="547" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="495">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ListConferencesCmd.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="85" selection-start="1105" selection-end="1182" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="540">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ListListenersCmd.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="42" selection-start="1510" selection-end="1510" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="720">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/ConferenceClientInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="60" selection-start="1430" selection-end="1430" vertical-scroll-proportion="0.0" vertical-offset="329" max-vertical-offset="1035">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/JoinConferenceCmd.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="16" selection-start="774" selection-end="945" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
@@ -1004,30 +1051,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ConferenceController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="7" selection-start="4422" selection-end="4422" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="2355">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="0" selection-start="467" selection-end="467" vertical-scroll-proportion="0.06787331" vertical-offset="120" max-vertical-offset="1035">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/JsonMessage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="0" selection-start="474" selection-end="474" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="690">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/DirectConferenceClientInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="5" selection-start="1258" selection-end="1258" vertical-scroll-proportion="0.0" vertical-offset="412" max-vertical-offset="1095">
           <folding />
         </state>
       </provider>
@@ -1046,13 +1072,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/StringMessage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="39" selection-start="1059" selection-end="1059" vertical-scroll-proportion="0.0" vertical-offset="95" max-vertical-offset="705">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/Message.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="27" column="39" selection-start="627" selection-end="648" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="540">
@@ -1060,35 +1079,101 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/servlet/ConferenceWebSocket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="107" column="54" selection-start="4282" selection-end="4282" vertical-scroll-proportion="0.0" vertical-offset="1340" max-vertical-offset="2400">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/Conference.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="152" column="53" selection-start="4759" selection-end="4759" vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="3795">
+        <state line="69" column="7" selection-start="2138" selection-end="2690" vertical-scroll-proportion="0.0" vertical-offset="768" max-vertical-offset="4170">
           <folding>
-            <element signature="e#2075#2076#0" expanded="true" />
-            <element signature="e#2113#2114#0" expanded="true" />
+            <element signature="e#2383#2384#0" expanded="true" />
+            <element signature="e#2411#2412#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/ConferenceClientInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="7" selection-start="1684" selection-end="1684" vertical-scroll-proportion="0.0" vertical-offset="530" max-vertical-offset="1230">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/DirectConferenceClientInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="5" selection-start="2005" selection-end="2005" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1320">
+          <folding>
+            <element signature="e#1976#1977#0" expanded="true" />
+            <element signature="e#2004#2005#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ListConferencesCmd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="0" selection-start="1254" selection-end="1254" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="467" selection-end="467" vertical-scroll-proportion="0.24590164" vertical-offset="0" max-vertical-offset="1035">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/ConferenceManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="0" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="2970">
+        <state line="37" column="37" selection-start="1146" selection-end="1146" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="2985">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/servlet/ConferenceWebSocket.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/CloseConferenceCmd.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="107" column="54" selection-start="4282" selection-end="4282" vertical-scroll-proportion="0.0" vertical-offset="1340" max-vertical-offset="2400">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="16" column="68" selection-start="547" selection-end="547" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="495">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/StringMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="47" selection-start="712" selection-end="712" vertical-scroll-proportion="0.43442622" vertical-offset="80" max-vertical-offset="750">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/SetConferenceClientInterfaceNameCmd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="9" selection-start="1007" selection-end="1007" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="465">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ConferenceController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="61" selection-start="1463" selection-end="1473" vertical-scroll-proportion="0.6281407" vertical-offset="60" max-vertical-offset="2460">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/stellarmap/conference/cmds/ListListenersCmd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="13" selection-start="375" selection-end="375" vertical-scroll-proportion="0.0" vertical-offset="63" max-vertical-offset="795">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="13" selection-start="166" selection-end="166" vertical-scroll-proportion="0.21190894" vertical-offset="14" max-vertical-offset="3405">
+        <state line="14" column="1" selection-start="319" selection-end="319" vertical-scroll-proportion="0.36649215" vertical-offset="0" max-vertical-offset="3405">
           <folding />
         </state>
       </provider>
