@@ -1,7 +1,8 @@
 package com.stellarmap.conference.cmds;
 
 import com.stellarmap.conference.ConferenceClientInterface;
-import com.stellarmap.conference.ConferenceManager;
+import com.stellarmap.conference.ConferenceCommand;
+import com.stellarmap.conference.ConferenceController;
 import org.json.JSONObject;
 
 /**

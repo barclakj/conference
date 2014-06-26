@@ -27,4 +27,10 @@ public interface Message {
      */
     public String getOriginListenerCode();
 
+    /**
+     * Returns a logical reference for the message. Could be the name of the sender
+     * or some other meaningful reference.
+     * @return
+     */
+    public String getReference();
 }

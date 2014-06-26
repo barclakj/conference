@@ -1,4 +1,4 @@
-package com.stellarmap.conference.cmds;
+package com.stellarmap.conference;
 
 import com.stellarmap.conference.ConferenceClientInterface;
 import org.json.JSONObject;

@@ -19,8 +19,10 @@ public class StringMessage implements Message {
 
     @Override
     public void initialise(ConferenceClientInterface listener) {
-        this.originHashCode = listener.getListenerCode();
-        this.name = listener.getName();
+        if (listener!=null) {
+            this.originHashCode = listener.getListenerCode();
+            this.name = listener.getName();
+        }
         timestamp = System.currentTimeMillis();
     }
 
@@ -33,10 +35,11 @@ public class StringMessage implements Message {
     public String toJSONString() {
         JSONObject jsonObject = new JSONObject();
 
-        jsonObject.put("msg", message);
+        jsonObject.put(ConferenceController.CONF_COMMAND, ConferenceController.BROADCAST_MESSAGE);
+        jsonObject.put(ConferenceController.CONF_MSG, message);
         jsonObject.put("creator", originHashCode);
         jsonObject.put("ts", timestamp);
-        jsonObject.put("name", name);
+        if (this.getReference()!=null) jsonObject.put("ref", this.getReference());
 
         return jsonObject.toString();
     }
@@ -44,5 +47,10 @@ public class StringMessage implements Message {
     @Override
     public String getOriginListenerCode() {
         return originHashCode;
+    }
+
+    @Override
+    public String getReference() {
+        return name;
     }
 }

@@ -1,4 +1,4 @@
-package test.stellarmap.conference;
+package conference;
 
 import com.stellarmap.conference.ClientCourier;
 import com.stellarmap.conference.Message;
@@ -9,14 +9,14 @@ import com.stellarmap.conference.Message;
 public class DummyCourier implements ClientCourier {
     @Override
     public boolean deliver(Message msg) {
-        long delay = (long)((Math.random()*1000));
+        long delay = (long)((Math.random()*50));
         try {
-            System.out.println("Waiting for " + delay + "ms");
+        //    System.out.println("Waiting for " + delay + "ms");
             Thread.sleep(delay);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Delivered: " + msg.hashCode());
+        System.out.println("Delivered: " + msg.toJSONString());
         return true;
     }
 }

@@ -1,11 +1,11 @@
-package com.stellarmap.conference.cmds;
+package com.stellarmap.conference;
 
-import com.stellarmap.conference.ConferenceClientInterface;
-import com.stellarmap.conference.JsonMessage;
-import com.stellarmap.conference.Message;
-import com.stellarmap.conference.StringMessage;
+import com.stellarmap.conference.cmds.*;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class ConferenceController {
     private static final Logger log = Logger.getLogger(ConferenceController.class.getCanonicalName());
-    public static final String CONF_COMMAND = "confCmd";
+    public static final String CONF_COMMAND = "cmd";
     public static final String CONF_OUTCOME = "cmdOutcome";
     public static final String CONF_ACTION = "confAction";
     public static final String CONF_ACTION_STATE_CHANGE = "statechange";
@@ -43,13 +43,37 @@ public class ConferenceController {
 
     public static final String NAME = "name";
 
-    public static final int CREATE_CONFERENCE = 0;
-    public static final int LIST_LISTENERS = 1;
-    public static final int LIST_CONFERENCES = 2;
-    public static final int MOVE_LISTENER = 3;
-    public static final int CLOSE_CONFERENCE = 4;
-    public static final int JOIN_CONFERENCE = 5;
-    public static final int SET_CI_NAME = 6;
+    public static final String CREATE_CONFERENCE = "createConference";
+    public static final String LIST_LISTENERS = "listListeners";
+    public static final String LIST_CONFERENCES = "listConferences";
+    public static final String MOVE_LISTENER = "moveListener";
+    public static final String CLOSE_CONFERENCE = "closeConference";
+    public static final String JOIN_CONFERENCE = "joinConference";
+    public static final String SET_CI_NAME = "setClientInterface";
+    public static final String BROADCAST_MESSAGE = "broadcastMsg";
+
+    /**
+     * Map of commands to command strings.
+     */
+    private static Map<String, ConferenceCommand> commandMap = new HashMap<String, ConferenceCommand>();
+
+    /**
+     * Register default command options.
+     */
+    static {
+        try {
+            registerCommand(new CreateConferenceCmd(), CREATE_CONFERENCE);
+            registerCommand(new ListConferencesCmd(), LIST_CONFERENCES);
+            registerCommand(new ListListenersCmd(), LIST_LISTENERS);
+            registerCommand(new MoveListenerCmd(), MOVE_LISTENER);
+            registerCommand(new CloseConferenceCmd(), CLOSE_CONFERENCE);
+            registerCommand(new JoinConferenceCmd(), JOIN_CONFERENCE);
+            registerCommand(new SetConferenceClientInterfaceNameCmd(), SET_CI_NAME);
+            registerCommand(new BroadcastMessageCmd(), BROADCAST_MESSAGE);
+        } catch(ConferenceException e) {
+            log.log(Level.WARNING, e.getMessage(), e);
+        }
+    }
 
     // converts string to cmds object
     public static JSONObject toJsonObject(String jsonString) {
@@ -68,6 +92,33 @@ public class ConferenceController {
     }
 
     /**
+     * Registers a specific command against a string command.
+     * Note that conference command objects are not thread safe like web servlets.
+     * @param cmd
+     * @param command
+     */
+    public static void registerCommand(ConferenceCommand cmd, String command) throws ConferenceException {
+        if (commandMap.containsKey(command)) {
+            throw new ConferenceException("Command '" + command + "' already exists.");
+        } else {
+            commandMap.put(command, cmd);
+        }
+    }
+
+    /**
+     * Retrieves command by name (or null and log if not found).
+     * @param command
+     * @return
+     */
+    public static ConferenceCommand getCommand(String command) {
+        if (commandMap.containsKey(command)) return commandMap.get(command);
+        else {
+            log.log(Level.WARNING, "Request to obtain command '" + command + "' failed - does not exist!");
+            return null;
+        }
+    }
+
+    /**
      * Processes a command as defined in a JSON object for the specified client interface.
      * @param jsonObject
      * @param clientInterface
@@ -77,41 +128,17 @@ public class ConferenceController {
         JSONObject responseJsonObject = null;
         if (isConferenceCommand(jsonObject)) {
             ConferenceCommand command = null;
-            int cmd = jsonObject.getInt(CONF_COMMAND);
-            switch (cmd) {
-                case CREATE_CONFERENCE:
-                    command = new CreateConferenceCmd();
-                    break;
-                case LIST_LISTENERS:
-                    command = new ListListenersCmd();
-                    break;
-                case LIST_CONFERENCES:
-                    command = new ListConferencesCmd();
-                    break;
-                case MOVE_LISTENER:
-                    command = new MoveListenerCmd();
-                    break;
-                case CLOSE_CONFERENCE:
-                    command = new CloseConferenceCmd();
-                    break;
-                case JOIN_CONFERENCE:
-                    command = new JoinConferenceCmd();
-                    break;
-                case SET_CI_NAME:
-                    command = new SetConferenceClientInterfaceNameCmd();
-                    break;
-                default:
-                    log.warning("Unknown command type (" + cmd + ") specified.");
-                    break;
-            }
-            // execute the object if it is not null.
+            command = getCommand(jsonObject.getString(CONF_COMMAND));
             if (command!=null) {
+                // execute the object if it is not null.
                 responseJsonObject = command.cmd(jsonObject, clientInterface);
             } else {
+                log.warning("Unknown command type (" + jsonObject.getString(CONF_COMMAND) + ") specified.");
                 responseJsonObject = new JSONObject();
                 responseJsonObject.put(ConferenceController.CONF_OUTCOME, ConferenceController.CONF_OUTCOME_FAIL);
                 responseJsonObject.put(ConferenceController.CONF_OUTCOME_MSG, "Undefined command requested.");
             }
+
         }
         return responseJsonObject;
     }
@@ -134,7 +161,6 @@ public class ConferenceController {
             log.warning("Unable to send message: " + jsonObject);
         }
     }
-
 
     /**
      * Creates a new object to notify that a user has left the conference.

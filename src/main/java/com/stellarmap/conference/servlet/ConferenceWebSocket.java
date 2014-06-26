@@ -1,7 +1,7 @@
 package com.stellarmap.conference.servlet;
 
 import com.stellarmap.conference.*;
-import com.stellarmap.conference.cmds.ConferenceController;
+import com.stellarmap.conference.ConferenceController;
 import org.json.JSONObject;
 
 import javax.websocket.*;
@@ -70,19 +70,18 @@ public class ConferenceWebSocket {
             abort = true;
         }
 
-        // first check if the instruction is to join a conference and do so accordingly.
+        // first check if we're ok to continue.
         if (!abort) {
-
-            // Check if message is a new conference to join
+            // Check msg is available
             if (msg!=null) {
+                // convert to an object and process as a command.
                 JSONObject jsonObject = ConferenceController.toJsonObject(msg);
-                if (ConferenceController.isConferenceCommand(jsonObject)) {
-                    if (log.isLoggable(Level.INFO)) log.info("Msg:" + jsonObject.toString());
-                    JSONObject response = ConferenceController.processCommand(jsonObject, clientInterface);
+                JSONObject response = ConferenceController.processCommand(jsonObject, clientInterface);
+                if (response!=null) {
                     String responseMsg = response.toString();
                     return responseMsg;
                 } else {
-                    ConferenceController.placeMessage(jsonObject, clientInterface);
+                    // not necessarily an error (not having anything to shout back).
                     return null;
                 }
             } else {

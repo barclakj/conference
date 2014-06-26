@@ -1,5 +1,6 @@
 package com.stellarmap.conference;
 
+import com.stellarmap.conference.ConferenceController;
 import org.json.JSONObject;
 
 /**
@@ -10,6 +11,7 @@ public class JsonMessage implements Message {
     private long timestamp = System.currentTimeMillis();
     private JSONObject message = null;
     private String originHashCode = null;
+    private String reference = null;
 
     public JsonMessage(JSONObject msg) {
         super();
@@ -18,7 +20,9 @@ public class JsonMessage implements Message {
 
     @Override
     public void initialise(ConferenceClientInterface listener) {
-        this.originHashCode = listener.getListenerCode();
+        if (listener!=null) { // only if specified. may be null if msg originates from the system.
+            this.setOriginHashCode(listener.getListenerCode());
+        }
         timestamp = System.currentTimeMillis();
     }
 
@@ -29,10 +33,13 @@ public class JsonMessage implements Message {
 
     @Override
     public String toJSONString() {
-        JSONObject jsonObject = message;
+        JSONObject jsonObject = new JSONObject();
 
+        jsonObject.put(ConferenceController.CONF_COMMAND, ConferenceController.BROADCAST_MESSAGE);
+        jsonObject.put(ConferenceController.CONF_MSG, message);
         jsonObject.put("creator", originHashCode);
         jsonObject.put("ts", timestamp);
+        if (this.getReference()!=null) jsonObject.put("ref", this.getReference());
 
         return jsonObject.toString();
     }
@@ -40,5 +47,18 @@ public class JsonMessage implements Message {
     @Override
     public String getOriginListenerCode() {
         return originHashCode;
+    }
+
+    @Override
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public void setOriginHashCode(String ohc) {
+        this.originHashCode = ohc;
     }
 }

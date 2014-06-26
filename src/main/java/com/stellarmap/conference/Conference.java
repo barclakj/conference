@@ -1,5 +1,7 @@
 package com.stellarmap.conference;
 
+import com.stellarmap.conference.ConferenceController;
+
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.*;
@@ -17,7 +19,7 @@ import java.util.logging.Logger;
  * Clients maintain their own queue of messages.
  * Created by barclakj on 28/05/2014.
  */
-public class Conference implements Runnable {
+public class Conference implements Runnable, Subscriber {
     private static final Logger log = Logger.getLogger(Conference.class.getCanonicalName());
 
     /**
@@ -212,7 +214,7 @@ public class Conference implements Runnable {
             // (note that this does not actually deliver the message).
             log.finest("Queuing...");
             for(ConferenceClientInterface listener : allListeners) {
-                if (listener.getListenerCode()!=msg.getOriginListenerCode()) {
+                if (msg.getOriginListenerCode()==null || listener.getListenerCode()!=msg.getOriginListenerCode()) {
                     if (log.isLoggable(Level.FINEST)) log.finest("Queuing message for: " + listener.getListenerCode());
                     listener.tickle(msg);
                 } else {
@@ -243,7 +245,12 @@ public class Conference implements Runnable {
                         if (log.isLoggable(Level.FINEST)) log.finest("Delivering messages to: " + listener.getListenerCode());
                         ClientInterfaceRunner runner = listener.getClientInterfaceRunner();
                         if (runner!=null) {
-                            executor.submit(listener.getClientInterfaceRunner());
+                            try {
+                                executor.submit(listener.getClientInterfaceRunner());
+                            } catch (RejectedExecutionException e) {
+                                log.warning("Submission of message failed: " + e.getMessage());
+                                assert (true == false) : "Submission of message failed: " + e.getMessage();
+                            }
                         } else {
                             if (log.isLoggable(Level.WARNING)) log.warning("No runner available for listener: " + listener.hashCode());
                         }
@@ -285,5 +292,19 @@ public class Conference implements Runnable {
      */
     public long getTs() {
         return ts;
+    }
+
+    @Override
+    public void publish(Publisher pub) {
+        JsonMessage msg = new JsonMessage(pub.getJsonContent());
+        msg.initialise(null);
+        msg.setReference(pub.getReferenceId());
+        msg.setOriginHashCode(pub.getListenerCode());
+        this.put(msg);
+    }
+
+    @Override
+    public void subscribe(Publisher pub) {
+        pub.addObserver(this);
     }
 }
