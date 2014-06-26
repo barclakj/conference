@@ -51,6 +51,7 @@ public class ConferenceController {
     public static final String JOIN_CONFERENCE = "joinConference";
     public static final String SET_CI_NAME = "setClientInterface";
     public static final String BROADCAST_MESSAGE = "broadcastMsg";
+    public static final String SUBSCRIBE_MESSAGE = "subscribe";
 
     /**
      * Map of commands to command strings.
@@ -70,6 +71,7 @@ public class ConferenceController {
             registerCommand(new JoinConferenceCmd(), JOIN_CONFERENCE);
             registerCommand(new SetConferenceClientInterfaceNameCmd(), SET_CI_NAME);
             registerCommand(new BroadcastMessageCmd(), BROADCAST_MESSAGE);
+            registerCommand(new SubscribeCmd(), SUBSCRIBE_MESSAGE);
         } catch(ConferenceException e) {
             log.log(Level.WARNING, e.getMessage(), e);
         }
@@ -151,8 +153,9 @@ public class ConferenceController {
     public static void placeMessage(JSONObject jsonObject, ConferenceClientInterface clientInterface) {
         Message m = null;
         if (jsonObject!=null && jsonObject.has(CONF_MSG)) {
-            String msg = jsonObject.getString(CONF_MSG);
-            m = new StringMessage(msg);
+            JSONObject msg = jsonObject.getJSONObject(CONF_MSG);
+            m = new JsonMessage(msg); //StringMessage(msg);
+            m.initialise(clientInterface);
         } else if (jsonObject!=null) {
             m = new JsonMessage(jsonObject);
         }

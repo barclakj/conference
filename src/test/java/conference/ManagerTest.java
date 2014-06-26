@@ -63,6 +63,7 @@ public class ManagerTest extends TestCase {
 
     @Test
     public void testPublisher() {
+        TimePublisher.PERIOD = 100;
         ConferenceAuditor.resetMetrics();
         System.out.println("Testing publisher...");
         Conference conf = ConferenceManager.newConference();

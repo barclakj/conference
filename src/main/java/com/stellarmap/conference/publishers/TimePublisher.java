@@ -11,6 +11,7 @@ import java.util.Date;
  */
 public class TimePublisher extends AbstractPublisher implements Runnable {
     public static final String PUBLISHER_KEY = "TIME_PUBLISHER";
+    public static int PERIOD = 60000;
 
     public TimePublisher() {
         super();
@@ -21,7 +22,7 @@ public class TimePublisher extends AbstractPublisher implements Runnable {
     public void run() {
         for(;;) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(PERIOD); // notify each minute.
             } catch (InterruptedException e) { }
             this.publish(); // publish updates every second
         }

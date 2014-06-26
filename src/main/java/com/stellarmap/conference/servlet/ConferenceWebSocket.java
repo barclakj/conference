@@ -19,7 +19,7 @@ public class ConferenceWebSocket {
     private MessageCourier courier = null;
     private ConferenceClientInterface clientInterface = null;
 
-    private static final long TIMEOUT = 10000; // 10s timeout
+    private static final long TIMEOUT = 10000; // 10s timeout on any message send
 
     /**
      * Inner class to handle delivery of messages (i.e. a clientcourier).
@@ -96,6 +96,8 @@ public class ConferenceWebSocket {
 
     @OnOpen
     public void onOpen(Session session) throws IOException {
+        session.setMaxTextMessageBufferSize(65536);
+        
         log.fine("Session opened.");
         log.info("Creating courier and client interface: ");
         courier = new MessageCourier();
