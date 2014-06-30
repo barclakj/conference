@@ -76,6 +76,9 @@ public class ConferenceWebSocket {
             if (msg!=null) {
                 // convert to an object and process as a command.
                 JSONObject jsonObject = ConferenceController.toJsonObject(msg);
+                // store canonical form if need be.
+                CanonicalStore.store(jsonObject);
+                // determine response based on command.
                 JSONObject response = ConferenceController.processCommand(jsonObject, clientInterface);
                 if (response!=null) {
                     String responseMsg = response.toString();
@@ -97,7 +100,7 @@ public class ConferenceWebSocket {
     @OnOpen
     public void onOpen(Session session) throws IOException {
         session.setMaxTextMessageBufferSize(65536);
-        
+
         log.fine("Session opened.");
         log.info("Creating courier and client interface: ");
         courier = new MessageCourier();

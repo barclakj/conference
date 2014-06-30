@@ -52,6 +52,7 @@ public class ConferenceController {
     public static final String SET_CI_NAME = "setClientInterface";
     public static final String BROADCAST_MESSAGE = "broadcastMsg";
     public static final String SUBSCRIBE_MESSAGE = "subscribe";
+    public static final String READ_REF_MESSAGE = "readRef";
 
     /**
      * Map of commands to command strings.
@@ -72,6 +73,7 @@ public class ConferenceController {
             registerCommand(new SetConferenceClientInterfaceNameCmd(), SET_CI_NAME);
             registerCommand(new BroadcastMessageCmd(), BROADCAST_MESSAGE);
             registerCommand(new SubscribeCmd(), SUBSCRIBE_MESSAGE);
+            registerCommand(new ReadCanonicalFormCmd(), READ_REF_MESSAGE);
         } catch(ConferenceException e) {
             log.log(Level.WARNING, e.getMessage(), e);
         }
