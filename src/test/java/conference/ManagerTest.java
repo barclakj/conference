@@ -3,6 +3,7 @@ package conference;
 import com.stellarmap.conference.*;
 import com.stellarmap.conference.publishers.TimePublisher;
 import junit.framework.TestCase;
+import org.json.JSONObject;
 import org.junit.Test;
 
 /**
@@ -75,7 +76,9 @@ public class ManagerTest extends TestCase {
             e.printStackTrace();
             assertTrue(false);
         }
-        Publisher pub = PublisherFactory.obtainPublisher(TimePublisher.PUBLISHER_KEY);
+        JSONObject obj = new JSONObject();
+        obj.put("locale", "en_GB");
+        Publisher pub = PublisherFactory.obtainPublisher(TimePublisher.PUBLISHER_KEY, obj);
         conf.subscribe(pub);
 
         System.out.println("Waiting 5 seconds for x5 messages to be published...");

@@ -17,4 +17,5 @@ public interface Publisher {
     public JSONObject getJsonContent();
     public String getReferenceId();
     public String getListenerCode();
+    public void configure(JSONObject config);
 }

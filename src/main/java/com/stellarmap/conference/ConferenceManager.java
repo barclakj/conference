@@ -36,6 +36,7 @@ public class ConferenceManager {
         conf.setMaxParticipants(0);
         conf.setExpireWhenEmpty(false);
         conf.setName("The Red Lion");
+
         allConferenceMap.put("the_red_lion", conf); // temp hack: note that the name will not match the conference code
     }
 
@@ -161,8 +162,22 @@ public class ConferenceManager {
             if (log.isLoggable(Level.INFO)) log.info("Returning handle on conference: " + confCode);
             return allConferenceMap.get(confCode);
         } else {
-            if (log.isLoggable(Level.WARNING)) log.warning("Request for conference: " + confCode + " failed - not found!");
-            return null;
+            Conference selectedConference = null;
+            // above should have worked unless we've been asked by name or for the red lion.
+            // scan through all conferences to locate - slower but less likely to be used.
+            Collection<Conference> conferences = allConferenceMap.values();
+            for(Conference conf : conferences) {
+                if (conf!=null && (conf.getConferenceCode().equals(confCode) || conf.getName().equals(confCode))) {
+                    selectedConference = conf;
+                    break;
+                }
+                conf = null;
+            }
+
+            if (selectedConference==null && log.isLoggable(Level.WARNING))
+                log.warning("Request for conference: " + confCode + " failed - not found!");
+            else log.info("Returning (scan) handle on conference: " + confCode);
+            return selectedConference;
         }
     }
 

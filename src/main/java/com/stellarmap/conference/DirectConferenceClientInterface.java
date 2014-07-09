@@ -45,7 +45,7 @@ public class DirectConferenceClientInterface implements ConferenceClientInterfac
     @Override
     public void put(Message msg) {
         msg.initialise(this);
-        conference.put(msg);
+        if (conference!=null) conference.put(msg);
     }
 
     @Override

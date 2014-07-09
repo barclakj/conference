@@ -76,10 +76,10 @@ public class ConferenceWebSocket {
             if (msg!=null) {
                 // convert to an object and process as a command.
                 JSONObject jsonObject = ConferenceController.toJsonObject(msg);
-                // store canonical form if need be.
-                CanonicalStore.store(jsonObject);
+
                 // determine response based on command.
                 JSONObject response = ConferenceController.processCommand(jsonObject, clientInterface);
+
                 if (response!=null) {
                     String responseMsg = response.toString();
                     return responseMsg;
@@ -87,6 +87,7 @@ public class ConferenceWebSocket {
                     // not necessarily an error (not having anything to shout back).
                     return null;
                 }
+
             } else {
                 log.warning("Unable to process request - no message.");
                 return "{\"error\": \"Unable to process request.\"}";
@@ -109,8 +110,18 @@ public class ConferenceWebSocket {
         clientInterface = new DirectConferenceClientInterface(session.getId(), session.getProtocolVersion(), session.getNegotiatedSubprotocol());
         ((DirectConferenceClientInterface)clientInterface).setCourier(courier);
 
+        // by default, each client should have its own conference.
+        try {
+            Conference conf = ConferenceManager.newConference();
+            conf.join(clientInterface);
+        } catch (ConferenceException e) {
+            log.log(Level.WARNING, "Unable to join the conference!?", e);
+            e.printStackTrace();
+        }
+
+        // hack removed to progress dev of proper conference selection.
         // this is a hack to make a pub work easily...
-        Conference pubConference = ConferenceManager.locateConference("the_red_lion");
+  /*      Conference pubConference = ConferenceManager.locateConference("the_red_lion");
         if (pubConference!=null) {
             try {
                 pubConference.join(clientInterface);
@@ -120,7 +131,7 @@ public class ConferenceWebSocket {
             }
         } else {
             log.warning("Pub does not exist!");
-        }
+        } */
     }
 
     @OnClose

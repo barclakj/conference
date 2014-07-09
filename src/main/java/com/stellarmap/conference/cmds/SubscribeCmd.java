@@ -15,12 +15,17 @@ public class SubscribeCmd implements ConferenceCommand {
 
         if (jsonObject.has("subscriptionKey")) {
             String key = jsonObject.getString("subscriptionKey");
-            Publisher pub = PublisherFactory.obtainPublisher(key);
+            Publisher pub = PublisherFactory.obtainPublisher(key, jsonObject);
             if (pub!=null) {
                 Conference conf = clientInterface.getConference();
-                conf.subscribe(pub);
+                if (conf!=null) {
+                    conf.subscribe(pub);
 
-                responseObject.put(ConferenceController.CONF_OUTCOME, ConferenceController.CONF_OUTCOME_SUCCESS);
+                    responseObject.put(ConferenceController.CONF_OUTCOME, ConferenceController.CONF_OUTCOME_SUCCESS);
+                } else {
+                    responseObject.put(ConferenceController.CONF_OUTCOME, ConferenceController.CONF_OUTCOME_FAIL);
+                    responseObject.put(ConferenceController.CONF_OUTCOME_MSG, "Client not attached to a conference");
+                }
             } else {
                 responseObject.put(ConferenceController.CONF_OUTCOME, ConferenceController.CONF_OUTCOME_FAIL);
                 responseObject.put(ConferenceController.CONF_OUTCOME_MSG, "No publisher located: " + key);

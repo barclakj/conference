@@ -3,6 +3,8 @@ package com.stellarmap.conference;
 import com.stellarmap.conference.ConferenceController;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -65,8 +67,44 @@ public class Conference implements Runnable, Subscriber {
      */
     private String name = null;
 
+    /**
+     * allows additional key/value pairs of data to be added to the conference.
+     */
+    private Map<String, String> metadata = new HashMap<String, String>();
+
     public Conference() {
         super();
+    }
+
+    /**
+     * Add an item to the metadata table.
+     * @param key
+     * @param value
+     */
+    public void setMetadata(String key, String value) {
+        log.info("Setting metadata " + key + " to " + value);
+        if (value==null) {
+            metadata.remove(key);
+        } else {
+            metadata.put(key, value);
+        }
+    }
+
+    /**
+     * Return map of metadata.
+     * @return
+     */
+    public Map<String, String> getMetadata() {
+        return metadata;
+    }
+
+    /**
+     * Returns the value of a specific piece of metadata.
+     * @param key
+     * @return
+     */
+    public String getMetadataValue(String key) {
+        return metadata.get(key);
     }
 
     /**
